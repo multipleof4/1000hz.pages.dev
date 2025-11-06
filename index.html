@@ -1,1 +1,47 @@
-# sorafun
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sora fun</title>
+  <style>
+    body { margin: 0; background: #000; }
+    #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+    #grid video { width: 100%; aspect-ratio: 16/9; object-fit: cover; cursor: pointer; }
+    #modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000c; display: none; align-items: center; justify-content: center; }
+    #modal video { max-width: 90%; max-height: 90%; }
+  </style>
+</head>
+<body>
+  <div id="grid"></div>
+  <div id="modal">
+    <video controls autoplay></video>
+  </div>
+  <script>
+    const grid = document.querySelector('#grid');
+    const modal = document.querySelector('#modal');
+    const modalVideo = modal.querySelector('video');
+    const clipCount = 6; // Master, update this with your total number of clips.
+
+    for (let i = 1; i <= clipCount; i++) {
+      const path = `public/vids/gen (${i}).mp4`;
+      const thumb = document.createElement('video');
+      thumb.src = path;
+      thumb.muted = true;
+      thumb.preload = 'metadata';
+      thumb.onclick = () => {
+        modal.style.display = 'flex';
+        modalVideo.src = path;
+      };
+      grid.append(thumb);
+    }
+
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+        modalVideo.src = '';
+      }
+    };
+  </script>
+</body>
+</html>
